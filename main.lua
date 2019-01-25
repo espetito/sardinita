@@ -48,6 +48,7 @@ function love.load()
   math.randomseed(os.time())
 
   -- load resources
+  loadBgm("music", "music.mp3")
   loadFont("font", "smart.ttf", 32)
   loadRes()
 
