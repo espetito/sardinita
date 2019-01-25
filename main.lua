@@ -48,20 +48,6 @@ function love.load()
   math.randomseed(os.time())
 
   -- load resources
-  loadImg("menu", "menu.png")
-  loadImg("credits", "credits.png")
-  loadImg("game", "game.png")
-  loadImg("btnPlayUp", "btn-play-up.png")
-  loadImg("btnPlayDown", "btn-play-down.png")
-
-  loadSfx("select_0", "select_0.ogg")
-  loadSfx("select_1", "select_1.ogg")
-  loadSfx("select_2", "select_2.ogg")
-  loadSfx("select_3", "select_3.ogg")
-
-  loadBgm("music", "music.mp3")
-  loadSfx("yaay", "yaay.ogg")
-
   loadFont("font", "smart.ttf", 32)
   loadRes()
 
