@@ -38,13 +38,13 @@ function loadRes(threaded)
     end
 
     for name, src in pairs(res.bgmQueue) do
-        res.bgm[name] = love.audio.newSource(res.dir .. "bgm/" .. src)
+        res.bgm[name] = love.audio.newSource(res.dir .. "bgm/" .. src, "stream")
         res.bgm[name]:setLooping(true)
         res.bgmQueue[name] = nil
     end
 
     for name, src in pairs(res.sfxQueue) do
-        res.sfx[name] = love.audio.newSource(res.dir .. "sfx/" .. src)
+        res.sfx[name] = love.audio.newSource(res.dir .. "sfx/" .. src, "static")
         res.sfx[name]:setLooping(false)
         res.sfxQueue[name] = nil
     end
