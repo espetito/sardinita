@@ -32,24 +32,25 @@ end
 -- END LOAD --
 
 function st.update(dt)
-  gameManager:update(dt)
-  -- Update players
-  if joysticksCount > 0 then
-    for i=1,joysticksCount do
-      local axisDir1, axisDir2, axisDir3 ,axisDir4, axisDir5 = joysticks[i]:getAxes()
-      players[i]:updateDirection(axisDir4,axisDir5)
-      players[i]:updateAnim(dt)
-      players[i]:move(axisDir1 * dt,axisDir2 * dt)
-      if joysticks[i]:getGamepadAxis("triggerright") ~= 0 then
-        players[i]:throw(axisDir4,axisDir5)
+  if not settings.global.pause then
+    gameManager:update(dt)
+    -- Update players
+    if joysticksCount > 0 then
+      for i=1,joysticksCount do
+        local axisDir1, axisDir2, axisDir3 ,axisDir4, axisDir5 = joysticks[i]:getAxes()
+        players[i]:updateDirection(axisDir4,axisDir5)
+        players[i]:updateAnim(dt)
+        players[i]:move(axisDir1 * dt,axisDir2 * dt)
+        if joysticks[i]:getGamepadAxis("triggerright") ~= 0 then
+          players[i]:throw(axisDir4,axisDir5)
+        end
       end
     end
+    -- Update doormats
+    for _,doormat in pairs(doormats) do
+      doormat:update(dt)
+    end
   end
-  -- Update doormats
-  for _,doormat in pairs(doormats) do
-    doormat:update(dt)
-  end
-
 end
 
 function st.draw()
