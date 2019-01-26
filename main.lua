@@ -45,6 +45,10 @@ function love.gamepadpressed(joystick, button)
 end
 
 function love.gamepadreleased(joystick, button)
+  if button == 'rightstick' then
+    settings.global.debug = not settings.global.debug
+  end
+
   st.gamepadreleased(joystick, button)
 end
 
@@ -63,6 +67,10 @@ end
 
 function love.keyreleased(k)
   st.keyreleased(k)
+end
+
+function love.focus(f)
+  settings.global.pause = not f
 end
 
 function love.quit()

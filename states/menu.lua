@@ -38,8 +38,14 @@ end
 
 function st.draw()
   drawBG()
-  palette.setColor(15)
-  love.graphics.print(title.text, 128, 128, 0, title.scale)
+  local col = 9
+  local w = assets.fnt.font:getWidth('A')
+  for c = 1, #title.text do
+    palette.setColor(col)
+    love.graphics.print(title.text:sub(c,c), 128+w*c, 128, 0, title.scale)
+    col = col + 1
+    if col > 16 then col = 9 end
+  end
   drawButton(0, 128, 500)
   drawButton(1, 128, 700)
 end
