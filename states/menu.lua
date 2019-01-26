@@ -51,7 +51,7 @@ function st.gamepadreleased(joystick, button)
     selection = (selection - 1) % 2
   elseif button == 'a' then
     if selection == 0 then
-      -- state.switch('game')
+      state.switch('game')
     elseif selection == 1 then
       transition.exit()
     end

@@ -1,8 +1,8 @@
 -- game state
 local bump = require 'lib/bump'
 local sti = require "lib/sti"
-local Player = require("Entities/player")
-local GameManager = require("Entities/GameManager")
+local Player = require("entities/player")
+local GameManager = require("entities/GameManager")
 
 -- START LOAD --
 -- Init game GameManager

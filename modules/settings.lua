@@ -11,7 +11,9 @@ settings = {
     scaledFullscreen = false,
     hScaleBefore = 1,
     vScaleBefore = 1,
-    volume = 1
+    volume = 1,
+    pause = false,
+    pausePlayer = nil
   },
   prefs = {
     hScale = 1,
