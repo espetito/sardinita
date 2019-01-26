@@ -2,8 +2,8 @@ settings = {
   global = {
     debug = true,
     borderless = false,
-    width = 960,
-    height = 540,
+    width = 1920,
+    height = 1080,
     screenWidth = 0,
     screenHeight = 0,
     hFullscreenScale = 1,
@@ -16,7 +16,7 @@ settings = {
   prefs = {
     hScale = 1,
     vScale = 1,
-    fullscreen = false,
+    fullscreen = true,
     sound = true
   }
 }
