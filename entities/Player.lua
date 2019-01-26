@@ -6,14 +6,14 @@ function Player:initialize()
   self.y = 0
   self.dx = 0
   self.dy = 0
-  self.speed = 40
-  self.weight = 10
+  self.speed = 20
   self.collision = {name="A"}
+  world:add(self.collision, self.x, self.y, 16,16)
 end
 
 function Player:draw()
   love.graphics.setColor(0, 1, 0, 100)
-  love.graphics.rectangle( "fill", self.x, self.y, 32, 32 )
+  love.graphics.rectangle( "fill", self.x, self.y, 16, 16 )
 end
 
 function Player:move(x,y)
