@@ -21,6 +21,7 @@ function st.keyreleased(k) end
 
 function love.load()
   math.randomseed(os.time())
+  love.graphics.setDefaultFilter('nearest', 'nearest')
   assets.init()
   love.graphics.setFont(assets.fnt.font)
   state.switch('menu')
@@ -33,12 +34,13 @@ function love.update(dt)
 end
 
 function love.draw()
+  shader(function()
+    -- st.draw()
+    -- transition.draw()
+  end)
+
   st.draw()
   transition.draw()
-  --shader(function()
-  --  st.draw()
-  --  transition.draw()
---  end)
 end
 
 function love.gamepadpressed(joystick, button)

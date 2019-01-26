@@ -12,9 +12,7 @@ assets = {
 
 function assets.init()
   assets.loadBgm('menu', 'menu.ogg')
-  --assets.loadFont('font', 'smart.ttf', 128)
-  assets.loadFont('font', 'smart.ttf', 32)
-  assets.loadControllersDB()
+  assets.loadFont('font', 'smart.ttf', 64)
   assets.load()
 end
 
