@@ -1,6 +1,6 @@
 settings = {
   global = {
-    debug = true,
+    debug = false,
     borderless = true,
     width = 1920,
     height = 1080,
@@ -12,8 +12,7 @@ settings = {
     hScaleBefore = 1,
     vScaleBefore = 1,
     volume = 1,
-    pause = false,
-    pausePlayer = nil
+    pause = false
   },
   prefs = {
     hScale = 1,
