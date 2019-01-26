@@ -8,17 +8,14 @@ transition = {
   timer = {
     time = 1.0,
     elapsed = 0.0,
-    inTransition = false,
+    to = nil,
     exit = false
   }
 }
 
 function transition.start(to)
-  function _switch()
-    state.switch(to)
-  end
-
-  flux.to(transition.colour, 0.5, { alpha = 255 }):after(transition.colour, 0.5, { alpha = 0 }):oncomplete(_switch)
+  transition.timer.to = to
+  flux.to(transition.colour, 0.5, { alpha = 255 }):after(transition.colour, 0.5, { alpha = 0 })
 end
 
 function transition.exit()
@@ -40,26 +37,11 @@ function transition.update(dt)
   if transition.timer.exit then
     assets.bgm.music:setVolume(settings.global.volume)
     transition.timer.elapsed = transition.timer.elapsed + dt
-    if transition.timer.elapsed > transition.timer.time then
-      transition.timer.elapsed = 0
-      transition.timer.exit = false
-      transition.timer.inTransition = false
-      love.event.push('quit')
-    end
-  elseif timer.toGame then
-    transition.timer.toGameTime = transition.timer.toGameTime + dt
-
-    if transition.timer.toGameTime > transition.timer.time / 2 then
-      settings.global.inGame = true
-    end
-
-    if transition.timer.toGameTime > transition.timer.time then
-      transition.timer.toGameTime = 0
-      transition.timer.toGame = false
-      transition.timer.inTransition = false
-      resetLevel()
-      transition.timer.resetting = true
-      resetTransition()
+  elseif transition.timer.to then
+    transition.timer.elapsed = transition.timer.elapsed + dt
+    if transition.timer.elapsed > transition.timer.time / 2 then
+      state.switch(transition.to)
+      transition.to = nil
     end
   end
 end
