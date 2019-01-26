@@ -1,65 +1,75 @@
-function setupWindow()
-    love.window.setMode(0, 0, { fullscreen = false })
-    global.screenWidth = love.graphics.getWidth()
-    global.screenHeight = love.graphics.getHeight()
+window = {}
 
-    if global.scaledFullscreen then
-        -- NOTE: posible escalado entero
-        while global.width * (global.hFullscreenScale + 1) < global.screenWidth and global.height * (global.vFullscreenScale + 1) < global.screenHeight do
-            global.hFullscreenScale = global.hFullscreenScale + 1
-            global.vFullscreenScale = global.vFullscreenScale + 1
-        end
-    else
-        global.hFullscreenScale = global.screenWidth / global.width
-        global.vFullscreenScale = global.screenHeight / global.height
+function window.setup()
+  love.window.setMode(0, 0, { fullscreen = false })
+  settings.global.screenWidth = love.graphics.getWidth()
+  settings.global.screenHeight = love.graphics.getHeight()
+
+  if settings.global.scaledFullscreen then
+    while settings.global.width * (settings.global.hFullscreenScale + 1) < settings.global.screenWidth and settings.global.height * (settings.global.vFullscreenScale + 1) < settings.global.screenHeight do
+      settings.global.hFullscreenScale = settings.global.hFullscreenScale + 1
+      settings.global.vFullscreenScale = settings.global.vFullscreenScale + 1
     end
+  else
+    settings.global.hFullscreenScale = settings.global.screenWidth / settings.global.width
+    settings.global.vFullscreenScale = settings.global.screenHeight / settings.global.height
+  end
 
-    love.graphics.setBackgroundColor(88, 88, 88)
-    if settings.fullscreen then
-        global.hScaleBefore = settings.hScale
-        global.vScaleBefore = settings.vScale
-        settings.hScale = global.hFullscreenScale
-        settings.vScale = global.vFullscreenScale
-    end
+  love.graphics.setBackgroundColor(88, 88, 88)
+  if settings.prefs.fullscreen then
+    settings.global.hScaleBefore = settings.prefs.hScale
+    settings.global.vScaleBefore = settings.prefs.vScale
+    settings.prefs.hScale = settings.global.hFullscreenScale
+    settings.prefs.vScale = settings.global.vFullscreenScale
+  end
 
-    love.window.setMode(global.width * settings.hScale, global.height * settings.vScale, { fullscreen = settings.fullscreen, borderless = global.borderless })
-    love.graphics.setDefaultFilter("nearest", "nearest", 0)
+  love.window.setMode(settings.global.width * settings.prefs.hScale, settings.global.height * settings.prefs.vScale, { fullscreen = settings.prefs.fullscreen, borderless = settings.global.borderless })
+  love.graphics.setDefaultFilter("nearest", "nearest", 0)
 end
 
-function scaleUpWindow()
-    if not settings.fullscreen and settings.hScale < 5 and settings.vScale < 5 then
-        settings.hScale = settings.hScale + 1
-        settings.vScale = settings.vScale + 1
-        love.window.setMode(global.width * settings.hScale, global.height * settings.vScale, { fullscreen = settings.fullscreen, borderless = global.borderless })
-    end
+function window.scaleUp()
+  if not settings.prefs.fullscreen and settings.prefs.hScale < 5 and settings.prefs.vScale < 5 then
+    settings.prefs.hScale = settings.prefs.hScale + 1
+    settings.prefs.vScale = settings.prefs.vScale + 1
+    love.window.setMode(settings.global.width * settings.prefs.hScale, settings.global.height * settings.prefs.vScale, { fullscreen = settings.prefs.fullscreen, borderless = settings.global.borderless })
+  end
 end
 
-function scaleDownWindow()
-    if not settings.fullscreen and settings.hScale > 1 and settings.vScale > 1 then
-        settings.hScale = settings.hScale - 1
-        settings.vScale = settings.vScale - 1
-        love.window.setMode(global.width * settings.hScale, global.height * settings.vScale, { fullscreen = settings.fullscreen, borderless = global.borderless })
-    end
+function window.scaleDown()
+  if not settings.prefs.fullscreen and settings.prefs.hScale > 1 and settings.prefs.vScale > 1 then
+    settings.prefs.hScale = settings.prefs.hScale - 1
+    settings.prefs.vScale = settings.prefs.vScale - 1
+    love.window.setMode(settings.global.width * settings.prefs.hScale, settings.global.height * settings.prefs.vScale, { fullscreen = settings.prefs.fullscreen, borderless = settings.global.borderless })
+  end
 end
 
-function toggleFullscreen()
-    settings.fullscreen = not settings.fullscreen
-    if settings.fullscreen then
-        global.hScaleBefore = settings.hScale
-        global.vScaleBefore = settings.vScale
-        settings.hScale = global.hFullscreenScale
-        settings.vScale = global.vFullscreenScale
-    else
-        settings.hScale = global.hScaleBefore
-        settings.vScale = global.vScaleBefore
-    end
+function window.toggleFullscreen()
+  settings.prefs.fullscreen = not settings.prefs.fullscreen
+  if settings.prefs.fullscreen then
+    settings.global.hScaleBefore = settings.prefs.hScale
+    settings.global.vScaleBefore = settings.prefs.vScale
+    settings.prefs.hScale = settings.global.hFullscreenScale
+    settings.prefs.vScale = settings.global.vFullscreenScale
+  else
+    settings.prefs.hScale = settings.global.hScaleBefore
+    settings.prefs.vScale = settings.global.vScaleBefore
+  end
 
-    love.window.setMode(global.width * settings.hScale, global.height * settings.vScale, { fullscreen = settings.fullscreen, borderless = global.borderless })
+  love.window.setMode(settings.global.width * settings.prefs.hScale, settings.global.height * settings.prefs.vScale, { fullscreen = settings.prefs.fullscreen, borderless = settings.global.borderless })
 end
 
-function storeWindowScale()
-    if settings.fullscreen then
-        settings.hScale = global.hScaleBefore
-        settings.vScale = global.vScaleBefore
-    end
+function window.keypressed(k)
+  if k == '=' then window.scaleUpWindow() return end
+  if k == '-' then window.scaleDownWindow() return end
+  if k == 'return' and love.keyboard.isDown('lalt', 'ralt') then
+    window.toggleFullscreen()
+    return
+  end
+end
+
+function window.save()
+  if settings.prefs.fullscreen then
+    settings.prefs.hScale = settings.global.hScaleBefore
+    settings.prefs.vScale = settings.global.vScaleBefore
+  end
 end
