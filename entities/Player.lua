@@ -8,6 +8,7 @@ function Player:initialize()
   self.dy = 0
   self.speed = 40
   self.weight = 10
+  self.collision = {name="A"}
 end
 
 function Player:draw()
@@ -20,8 +21,11 @@ function Player:move(x,y)
   self.dy = self.dy - self.dy * 0.05
   self.dx = self.dx + (self.speed - self.dx) * x
   self.dy = self.dy + (self.speed - self.dy) * y
-  self.x = self.x + self.dx
-  self.y = self.y + self.dy
+  local intendedX = self.x + self.dx
+  local intendedY = self.y + self.dy
+  local actualX, actualY, cols, len = world:move(self.collision, intendedX,intendedY)
+  self.x = actualX
+  self.y = actualY
 end
 
 return Player
