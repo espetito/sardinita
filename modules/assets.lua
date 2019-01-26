@@ -12,12 +12,18 @@ assets = {
 
 function assets.init()
   assets.loadBgm('menu', 'menu.ogg')
-  assets.loadFont('font', 'smart.ttf', 128)
+  --assets.loadFont('font', 'smart.ttf', 128)
+  assets.loadFont('font', 'smart.ttf', 32)
+  assets.loadControllersDB()
   assets.load()
 end
 
 function assets.loadFont(name, src, size)
   assets.fntQueue[name] = { src, size }
+end
+
+function assets.loadControllersDB()
+  love.joystick.loadGamepadMappings('assets/gameControllersDB.txt')
 end
 
 function assets.loadImg(name, src)

@@ -95,3 +95,16 @@ function table.show(t, name, indent)
   addtocart(t, name, indent)
   return cart .. autoref
 end
+
+
+function length(t) -- Counts element in table
+    local count = 0
+    for _, __ in pairs(t) do
+        count = count + 1
+    end
+    return count
+end
+
+function round(x)
+  return x + 0.5 - (x + 0.5) % 1
+end

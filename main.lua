@@ -23,7 +23,6 @@ function love.load()
   math.randomseed(os.time())
   assets.init()
   love.graphics.setFont(assets.fnt.font)
-  shader = moonshine(moonshine.effects.crt).chain(moonshine.effects.scanlines).chain(moonshine.effects.chromasep)
   state.switch('menu')
 end
 
@@ -34,10 +33,12 @@ function love.update(dt)
 end
 
 function love.draw()
-  shader(function()
-    st.draw()
-    transition.draw()
-  end)
+  st.draw()
+  transition.draw()
+  --shader(function()
+  --  st.draw()
+  --  transition.draw()
+--  end)
 end
 
 function love.gamepadpressed(joystick, button)
