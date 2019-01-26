@@ -12,6 +12,11 @@ require('modules/utils')
 st = {}
 function st.update(dt) end
 function st.draw() end
+function st.gamepadpressed(joystick, button) end
+function st.gamepadreleased(joystick, button) end
+function st.gamepadaxis(joystick, axis, value) end
+function st.keypressed(k) end
+function st.keyreleased(k) end
 
 function love.load()
   math.randomseed(os.time())
@@ -41,6 +46,10 @@ end
 
 function love.gamepadreleased(joystick, button)
   st.gamepadreleased(joystick, button)
+end
+
+function love.gamepadaxis(joystick, axis, value)
+  st.gamepadaxis(joystick, axis, value)
 end
 
 function love.keypressed(k)
