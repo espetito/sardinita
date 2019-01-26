@@ -53,7 +53,7 @@ function love.gamepadaxis(joystick, axis, value)
 end
 
 function love.keypressed(k)
-  if k == 'esc' then
+  if k == 'escape' then
     love.event.push('quit')
   end
 

@@ -1,7 +1,7 @@
 settings = {
   global = {
     debug = true,
-    borderless = false,
+    borderless = true,
     width = 1920,
     height = 1080,
     screenWidth = 0,
