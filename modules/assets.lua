@@ -11,8 +11,8 @@ assets = {
 }
 
 function assets.init()
-  assets.loadBgm('music', 'music.mp3')
-  assets.loadFont('font', 'smart.ttf', 32)
+  assets.loadBgm('menu', 'menu.ogg')
+  assets.loadFont('font', 'smart.ttf', 128)
   assets.load()
 end
 

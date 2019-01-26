@@ -1,6 +1,7 @@
 flux = require('lib/flux')
 class = require('lib/middleclass')
 state = require('lib/stateswitcher')
+moonshine = require('lib/moonshine')
 
 require('modules/settings')
 require('modules/assets')
@@ -22,22 +23,21 @@ function love.load()
   math.randomseed(os.time())
   assets.init()
   love.graphics.setFont(assets.fnt.font)
-
-  if settings.prefs.sound then
-    assets.bgm.music:play()
-  end
-
+  shader = moonshine(moonshine.effects.crt).chain(moonshine.effects.scanlines).chain(moonshine.effects.chromasep)
   state.switch('menu')
 end
 
 function love.update(dt)
+  flux.update(dt)
   st.update(dt)
   transition.update(dt)
 end
 
 function love.draw()
-  st.draw()
-  transition.draw()
+  shader(function()
+    st.draw()
+    transition.draw()
+  end)
 end
 
 function love.gamepadpressed(joystick, button)
