@@ -61,10 +61,12 @@ function st.draw()
     doormat:draw()
   end
   gameManager:draw()
-  love.graphics.print("FPS:"..love.timer.getFPS(),0,0)
-  love.graphics.print('Number of joysticks connected '..joysticksCount, 0, 50)
-  local axisDir1, axisDir2, axisDir3 ,axisDir4, axisDir5 = joysticks[1]:getAxes()
-  love.graphics.print('('..axisDir4..','..axisDir5..')',0,500)
+  if settings.global.debug then
+    love.graphics.print("FPS:"..love.timer.getFPS(),0,0)
+    love.graphics.print('Number of joysticks connected '..joysticksCount, 0, 50)
+    local axisDir1, axisDir2, axisDir3 ,axisDir4, axisDir5 = joysticks[1]:getAxes()
+    love.graphics.print('('..axisDir4..','..axisDir5..')',0,500)
+  end
 end
 
 
