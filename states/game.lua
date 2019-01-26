@@ -2,15 +2,17 @@
 local bump = require 'lib/bump'
 local sti = require "lib/sti"
 local Player = require("Entities/player")
+local GameManager = require("Entities/GameManager")
 
+-- START LOAD --
+-- Init game GameManager
+local gameManager = GameManager:new()
 -- Load map and collisions
 map = sti("assets/maps/test/TestMap.lua",{ "bump" })
 world = bump.newWorld(16)
 map:bump_init(world)
-
+-- Initialize players
 local players={}
-
--- LOAD --
 -- Get number of joysticks connected
 local joysticks = love.joystick.getJoysticks()
 local joysticksCount = love.joystick.getJoystickCount()
@@ -20,7 +22,10 @@ if joysticksCount > 0 then
   end
 end
 
+-- END LOAD --
+
 function st.update(dt)
+  gameManager:update(dt)
   if joysticksCount > 0 then
     for i=1,joysticksCount do
       local axisDir1, axisDir2, axisDir3 ,axisDir4, axisDir5 = joysticks[i]:getAxes()
@@ -36,8 +41,9 @@ function st.draw()
   for key,player in pairs(players) do
     player:draw()
   end
-  love.graphics.print('hello from game', 0, 0)
-  love.graphics.print('Number of joysticks connected '..joysticksCount, 100, 100)
+  gameManager:draw()
+    love.graphics.print("FPS:"..love.timer.getFPS(),0,0)
+  love.graphics.print('Number of joysticks connected '..joysticksCount, 0, 50)
 end
 
 
