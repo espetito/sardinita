@@ -61,6 +61,7 @@ function st.draw()
     doormat:draw()
   end
   gameManager:draw()
+  drawPause()
   if settings.global.debug then
     love.graphics.print("FPS:"..love.timer.getFPS(),0,0)
     love.graphics.print('Number of joysticks connected '..joysticksCount, 0, 50)
@@ -69,10 +70,28 @@ function st.draw()
   end
 end
 
+function st.gamepadreleased(joystick, button)
+  if button == 'start' then
+    settings.global.pause = not settings.global.pause
+  elseif settings.global.pause and button == 'back' then
+    state.switch('menu')
+    love.event.push('quit')
+  end
+end
 
 
 function st.gamepadpressed(joystick, button) end
-function st.gamepadreleased(joystick, button) end
 function st.gamepadaxis(joystick, axis, value)end
 function st.keypressed(k) end
 function st.keyreleased(k) end
+
+
+function drawPause()
+  if settings.global.pause then
+    love.graphics.setColor(0, 0, 0, 0.75)
+    love.graphics.rectangle('fill', 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+    palette.setColor(8)
+    love.graphics.print('GAME PAUSED', 128, 128)
+    love.graphics.print('PRESS BACK TO QUIT', 128, 256)
+  end
+end
