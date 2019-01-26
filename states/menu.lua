@@ -23,3 +23,8 @@ function st.gamepadreleased(joystick, button)
     selection = (selection - 1) % 2
   end
 end
+
+function st.gamepadpressed(joystick, button) end
+function st.gamepadaxis(joystick, axis, value) end
+function st.keypressed(k) end
+function st.keyreleased(k) end
