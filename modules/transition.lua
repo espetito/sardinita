@@ -14,20 +14,20 @@ transition = {
 }
 
 function transition.start(to)
-  function switch()
+  function _switch()
     state.switch(to)
   end
 
-  flux.to(transition.colour, 0.5, { alpha = 255 }):after(transition.colour, 0.5, { alpha = 0 }):oncomplete(switch)
+  flux.to(transition.colour, 0.5, { alpha = 255 }):after(transition.colour, 0.5, { alpha = 0 }):oncomplete(_switch)
 end
 
 function transition.exit()
-  function quit()
+  function _quit()
     love.event.push('quit')
   end
 
   flux.to(settings.global, 1, { volume = 0 })
-  flux.to(transition.colour, 1, { red = 0, green = 0, blue = 0, alpha = 255 }):oncomplete(quit)
+  flux.to(transition.colour, 1, { red = 0, green = 0, blue = 0, alpha = 255 }):oncomplete(_quit)
 end
 
 function transition.draw()
