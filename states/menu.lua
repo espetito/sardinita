@@ -7,8 +7,6 @@ local buttons = {
   'QUIT'
 }
 
-local justMoved = false
-
 function st.update(dt)
 end
 
