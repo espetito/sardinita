@@ -21,6 +21,7 @@ function Player:initialize(id)
 end
 
 function Player:draw()
+  love.graphics.print('Index: '..self:getAnimIndex(), 500,500)
   love.graphics.setColor(1, 1, 1, 100)
   --love.graphics.rectangle( "fill", self.x, self.y, 16, 16 )
   love.graphics.print(self.type.."-"..self.id.." has "..length(self.doormats).." doormats.",0,275)
@@ -38,7 +39,7 @@ function Player:draw()
 end
 
 function Player:updateAnim(dt)
-  self.animDirs[self:getAnimIndex()]:update(dt)
+self.animDirs[self:getAnimIndex()]:update(dt)
 end
 
 function Player:move(x,y)
@@ -103,7 +104,7 @@ function Player:loadAnimations()
   local rightAnim = walt.newAnimation( { one,two,three }, {animSpeed,animSpeed,animSpeed}, rightSprites )
   rightAnim:setLooping()
 
-  self.animDirs = {rightAnim,rightAnim,downAnim,leftAnim,leftAnim,leftAnim,upAnim,rightAnim}
+  self.animDirs = {downAnim,rightAnim,rightAnim,upAnim,upAnim,leftAnim,leftAnim,downAnim}
 end
 
 function Player:getAnimIndex()
@@ -111,7 +112,7 @@ function Player:getAnimIndex()
   if angle < 0 then
     angle = angle + 2 * math.pi
   end
-  return round(angle / math.pi * 4) + 1
+  return math.floor(angle / math.pi * 4) + 1
 end
 
 return Player
