@@ -1,11 +1,11 @@
 local Player = class('Player')
 local walt = require('../lib/walt')
 
-function Player:initialize(id)
+function Player:initialize(id,x,y)
   self.type = "Player"
   self.id = id
-  self.x = 0
-  self.y = 0
+  self.x = x
+  self.y = y
   self.dx = 0
   self.dy = 0
   self.directionX = 0
@@ -22,7 +22,7 @@ end
 
 function Player:draw()
   love.graphics.print('Index: '..self:getAnimIndex(), 500,500)
-  love.graphics.setColor(1, 1, 1, 100)
+  love.graphics.setColor(1, 1, 1, 1)
   --love.graphics.rectangle( "fill", self.x, self.y, 16, 16 )
   love.graphics.print(self.type.."-"..self.id.." has "..length(self.doormats).." doormats.",0,275)
   self.animDirs[self:getAnimIndex()]:draw(self.x,self.y)
