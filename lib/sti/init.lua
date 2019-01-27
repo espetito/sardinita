@@ -542,7 +542,7 @@ function Map:setObjectSpriteBatches(layer)
 
 			batches[tileset] = batches[tileset] or newBatch(image)
 
-			local sx =  object.width / tile.width 
+			local sx =  object.width / tile.width
 			local sy =  object.height / tile.height
 
 			local batch = batches[tileset]
@@ -713,43 +713,17 @@ end
 -- @param sx Scale on X
 -- @param sy Scale on Y
 function Map:draw(tx, ty, sx, sy)
-	local current_canvas = lg.getCanvas()
-	lg.setCanvas(self.canvas)
-	lg.clear()
-
-	-- Scale map to 1.0 to draw onto canvas, this fixes tearing issues
-	-- Map is translated to correct position so the right section is drawn
-	lg.push()
-	lg.origin()
-	lg.translate(math.floor(tx or 0), math.floor(ty or 0))
-
 	for _, layer in ipairs(self.layers) do
 		if layer.visible and layer.opacity > 0 then
 			self:drawLayer(layer)
 		end
 	end
-
-	lg.pop()
-
-	-- Draw canvas at 0,0; this fixes scissoring issues
-	-- Map is scaled to correct scale so the right section is shown
-	lg.push()
-	lg.origin()
-	lg.scale(sx or 1, sy or sx or 1)
-
-	lg.setCanvas(current_canvas)
-	lg.draw(self.canvas)
-
-	lg.pop()
 end
 
 --- Draw an individual Layer
 -- @param layer The Layer to draw
 function Map.drawLayer(_, layer)
-	local r,g,b,a = lg.getColor()
-	lg.setColor(r, g, b, a * layer.opacity)
 	layer:draw()
-	lg.setColor(r,g,b,a)
 end
 
 --- Default draw function for Tile Layers

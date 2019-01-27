@@ -1,10 +1,10 @@
 -- game state
 local bump = require 'lib/bump'
 local sti = require "lib/sti"
-local gamera = require('lib/gamera')
 local Player = require("entities/player")
 local Doormat = require('entities/Doormat')
 local GameManager = require("entities/GameManager")
+local Camera = require('entities/Camera')
 
 -- START LOAD --
 -- resolution
@@ -16,48 +16,61 @@ local halfHeight = height/2
 local gameManager = GameManager:new()
 -- Load map and collisions
 local tileWidth = 16
-map = sti("assets/maps/test/FinalMap.lua",{ "bump" })
+map = sti("assets/maps/final2/FinalMap.lua",{ "bump" })
 world = bump.newWorld(tileWidth)
 map:bump_init(world)
+-- Initialize Spawns
+local playerSpawnsLayer = map.layers["Spawns"]
+local playerSpawns={}
+for k, object in pairs(playerSpawnsLayer["objects"]) do
+  if object.properties.type == "Spawn" then
+    table.insert(playerSpawns,object)
+	end
+end
 -- Initialize players
 local players={}
 local cams={}
-local bounds={}
-bounds[2] = {
-  { x=0,         y=0, w=halfWidth, h=height },
-  { x=halfWidth, y=0, w=halfWidth, h=height }
-}
-bounds[3] = {
-  { x=0,         y=0,          w=halfWidth, h=halfHeight },
-  { x=halfWidth, y=0,          w=halfWidth, h=halfHeight },
-  { x=0,         y=halfHeight, w=halfWidth, h=halfHeight }
-}
-bounds[4] = {
-  { x=0,         y=0,          w=halfWidth, h=halfHeight },
-  { x=halfWidth, y=0,          w=halfWidth, h=halfHeight },
-  { x=0,         y=halfHeight, w=halfWidth, h=halfHeight },
-  { x=halfWidth, y=halfHeight, w=halfWidth, h=halfHeight }
+local bounds={
+  {
+    { x=0, y=0, w=width, h=height }
+  },
+  {
+    { x=0,         y=0, w=halfWidth, h=height },
+    { x=halfWidth, y=0, w=halfWidth, h=height }
+  },
+  {
+    { x=0,         y=0,          w=halfWidth, h=halfHeight },
+    { x=halfWidth, y=0,          w=halfWidth, h=halfHeight },
+    { x=0,         y=halfHeight, w=halfWidth, h=halfHeight }
+  },
+  {
+    { x=0,         y=0,          w=halfWidth, h=halfHeight },
+    { x=halfWidth, y=0,          w=halfWidth, h=halfHeight },
+    { x=0,         y=halfHeight, w=halfWidth, h=halfHeight },
+    { x=halfWidth, y=halfHeight, w=halfWidth, h=halfHeight }
+  }
 }
 
 -- Get number of joysticks connected
 local joysticks = love.joystick.getJoysticks()
 local joydebug = ''
 local joysticksCount = love.joystick.getJoystickCount()
-if joysticksCount > 1 then
+if joysticksCount > 0 then
   -- create players
   for i=1,joysticksCount do
-    table.insert(players, Player:new())
+    local playerSpawn = playerSpawns[i]
+    table.insert(players, Player:new(i,playerSpawn.x,playerSpawn.y))
   end
+
   -- create cameras
   for i=1,#players do
-    local cam = gamera.new(-100,-100,width+100,height+100)
-    cam:setWindow(
-      bounds[#players][i].x,
-      bounds[#players][i].y,
+    local cam = Camera:new(
       bounds[#players][i].w,
-      bounds[#players][i].h
+      bounds[#players][i].h,
+      0, 0,
+      map.layers[1].width*tileWidth,
+      map.layers[1].height*tileWidth
     )
-
     table.insert(cams, cam)
   end
 else
@@ -85,7 +98,7 @@ function st.update(dt)
         players[i]:throw(axisDir4,axisDir5)
       end
 
-      cams[i]:setPosition(players[i].x+tileWidth/2, players[i].y+tileWidth/2)
+      cams[i]:update(dt, players[i].x, players[i].y)
     end
     -- Update doormats
     for _,doormat in pairs(doormats) do
@@ -96,21 +109,17 @@ end
 
 function st.draw()
   for i=1,#cams do
-    cams[i]:draw(function(x,y,w,h)
+    cams[i]:begin()
       love.graphics.setColor(1,1,1,1)
-      map:draw(bounds[#players][i].x-x,bounds[#players][i].y+y)
-
+      map:draw()
       for _,player in pairs(players) do
         player:draw()
       end
-
       for _,doormat in pairs(doormats) do
         doormat:draw()
       end
-    end)
-
-    love.graphics.setColor(1, 0, 0, 1)
-    love.graphics.print('camera: '..i, bounds[#players][i].x, bounds[#players][i].y)
+    cams[i]:finish()
+    cams[i]:draw(bounds[#players][i].x, bounds[#players][i].y)
   end
 
   love.graphics.setColor(0, 0, 0, 1)
@@ -121,6 +130,7 @@ function st.draw()
 
   gameManager:draw()
   drawPause()
+
   if settings.global.debug then
     love.graphics.print("FPS:"..love.timer.getFPS(),0,0)
     love.graphics.print('Number of joysticks connected '..joysticksCount, 0, 50)
@@ -144,7 +154,7 @@ function st.gamepadreleased(joystick, button)
 end
 
 function st.gamepadpressed(joystick, button) end
-function st.gamepadaxis(joystick, axis, value)end
+function st.gamepadaxis(joystick, axis, value) end
 function st.keypressed(k) end
 function st.keyreleased(k) end
 

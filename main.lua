@@ -23,6 +23,7 @@ function love.load()
   math.randomseed(os.time())
   love.graphics.setDefaultFilter('nearest', 'nearest')
   assets.init()
+  shader = moonshine(moonshine.effects.crt).chain(moonshine.effects.scanlines).chain(moonshine.effects.chromasep)
   love.graphics.setFont(assets.fnt.font)
   state.switch('menu')
 end

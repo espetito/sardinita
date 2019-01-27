@@ -23,7 +23,7 @@ end
 
 function Doormat:draw()
   if not self.isPicked then
-    love.graphics.setColor(1, 0, 0, 100)
+    -- love.graphics.setColor(1, 0, 0, 100)
     love.graphics.rectangle( "fill", self.x, self.y, self.size, self.size )
   end
 end

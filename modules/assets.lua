@@ -20,10 +20,6 @@ function assets.loadFont(name, src, size)
   assets.fntQueue[name] = { src, size }
 end
 
-function assets.loadControllersDB()
-  love.joystick.loadGamepadMappings('assets/gameControllersDB.txt')
-end
-
 function assets.loadImg(name, src)
   assets.imgQueue[name] = src
 end
